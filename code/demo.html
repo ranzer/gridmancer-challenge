@@ -2,48 +2,48 @@
 <html>
   <head>
     <script src="plan.js"></script>
-		<script>
-			window.onload = function() {
-				var width = 20,
-				    height = 20,
-					gridMancer = new GridMancer(width, height, 4),
-					testRectangles1 = [
-					  [4, 12, 0, 12],
-					  [12, 16, 4, 8],
-					  [0, 12, 8, 12],
-					  [4, 8, 12, 16]
-					],
-					testRectangles2 = [
-					  [4, 8, 0, 8],
-					  [0, 20, 8, 12],
-					  [4, 12, 12, 16]
-					];
-			
-				gridMancer.createGrid();
-				//gridMancer.createTestRectangles(testRectangles1);
+    <script>
+      window.onload = function() {
+        var width = 20,
+            height = 20,
+          gridMancer = new GridMancer(width, height, 4),
+          testRectangles1 = [
+            [4, 12, 0, 12],
+            [12, 16, 4, 8],
+            [0, 12, 8, 12],
+            [4, 8, 12, 16]
+          ],
+          testRectangles2 = [
+            [4, 8, 0, 8],
+            [0, 20, 8, 12],
+            [4, 12, 12, 16]
+          ];
+      
+        gridMancer.createGrid();
+        //gridMancer.createTestRectangles(testRectangles1);
         gridMancer.createRectangles();
-				gridMancer.drawGrid("originalContainer");
-				gridMancer.findSolution();
-				gridMancer.drawGrid("container");
-			};
-		</script>
-		<style>
-		  .container {
-		      float: left;
-			  margin-right: 1em;
-			}
-			.line {
-			  width: 100%;
-			}
-			span {
-				display: inline-block;
-				text-align: center;
-				width: 1.5em;
-			}
-		</style>
+        gridMancer.drawGrid("originalContainer");
+        gridMancer.findSolution();
+        gridMancer.drawGrid("container");
+      };
+    </script>
+    <style>
+      .container {
+          float: left;
+        margin-right: 1em;
+      }
+      .line {
+        width: 100%;
+      }
+      span {
+        display: inline-block;
+        text-align: center;
+        width: 1.5em;
+      }
+    </style>
   </head>
   <body>
-	<div id="originalContainer" class="container"></div>
+  <div id="originalContainer" class="container"></div>
     <div id="container" class="container"></div>
   </body>
 </html>
