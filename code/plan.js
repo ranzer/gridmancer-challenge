@@ -6,21 +6,21 @@
 (function(window) {
   if (window.GridMancer === undefined) {
     var GridMancer = function(width, height, tileSize) {
-	    /*var isCanvasElement = !!(drawingElement.getContext && drawingElement.getContext("2d"));
+      /*var isCanvasElement = !!(drawingElement.getContext && drawingElement.getContext("2d"));
       
       if (!isCanvasElement) {
         throw "The element with id '" + drawingElementId + "' isn't canvas element or the browser doesn't support canvas element.";
       }*/
       
       this.originalGrid = [];
-	    this.grid = [];
-	    this.width = width;
-	    this.height = height;
-			this.tileSize = tileSize;
-			this.nextRectId = 1;
+      this.grid = [];
+      this.width = width;
+      this.height = height;
+      this.tileSize = tileSize;
+      this.nextRectId = 1;
     //  this.drawingElement = window.document.getElementById(drawingElementId);
-	  };
-	  GridMancer.prototype.createGrid = function() {
+    };
+    GridMancer.prototype.createGrid = function() {
       var x, y;
       
       for (y = 0; y < this.height; y++) {
@@ -30,7 +30,7 @@
         for (x = 0; x < this.width; x++) {
           this.grid[y][x] = -1;
         }
-				
+        
         this.originalGrid[y] = this.grid[y].slice(0);
       }
     };
@@ -54,7 +54,7 @@
       var x, y, limitX, counterY,
         height = this.grid.length,
         width = this.grid[0].length,
-				maxTilesPerLine = width / this.tileSize,
+        maxTilesPerLine = width / this.tileSize,
       
       // Starting tile.
       startTile,
@@ -69,30 +69,30 @@
       randTiles,
       
       // Random starting tile (it cannot be higher then the maximum 
-			// number of tiles per line of the grid minus tileSize).
+      // number of tiles per line of the grid minus tileSize).
       randStartTile,
       
       // The number of tiles that the new rectangle has.
       tilesCount;
       
-			for (var y = 0; y + this.tileSize < height; y += this.tileSize) {
-				randStartTile = Math.random() * (maxTilesPerLine - this.tileSize);
-				startTile = Math.round(randStartTile);
-				maxTiles = maxTilesPerLine - startTile;
-				randTiles = Math.random() * maxTiles;
-				tilesCount = Math.round(randTiles);
+      for (var y = 0; y + this.tileSize < height; y += this.tileSize) {
+        randStartTile = Math.random() * (maxTilesPerLine - this.tileSize);
+        startTile = Math.round(randStartTile);
+        maxTiles = maxTilesPerLine - startTile;
+        randTiles = Math.random() * maxTiles;
+        tilesCount = Math.round(randTiles);
 
         if (tilesCount === 0) {
           tilesCount = 1;
         }       
         
         limitX = startTile * this.tileSize + tilesCount * this.tileSize;
-				
+        
         for (counterY = 0; counterY < this.tileSize; counterY++) {
-					for (x = startTile * this.tileSize; x < limitX; x++) {
+          for (x = startTile * this.tileSize; x < limitX; x++) {
             this.grid[y + counterY][x] = 0;
-					}
-				}
+          }
+        }
       }
     };
     GridMancer.prototype.isOccupied = function(x, y) {
@@ -126,7 +126,7 @@
           mostVerticalPoint = this.findLastPoint(x, y, 0, this.tileSize, fnCheckIsLastPointNotReached),
           //mostLeftHorizontalPoint = this.findLastPoint(x, y, -this.tileSize, 0, fnCheckIsLastPointNotReached),
           nextX = x + this.tileSize,
-					nextY = y + this.tileSize,
+          nextY = y + this.tileSize,
           coordinates = {
             maxH: {
               x: Math.min(mostHorizontalPoint.x, maxHorizontal),
@@ -137,17 +137,17 @@
               y: Math.min(mostVerticalPoint.y, maxVertical)
             },
             maxD: {
-						  x: nextX,
-							y: nextY
-						},
+              x: nextX,
+              y: nextY
+            },
           };
-					
+          
       while (!this.isOccupied(coordinates.maxD.x, coordinates.maxD.y) && 
-			       !this.isOutOfPath(coordinates.maxD.x, coordinates.maxD.y) && 
+             !this.isOutOfPath(coordinates.maxD.x, coordinates.maxD.y) && 
               coordinates.maxD.x < coordinates.maxH.x && 
-							coordinates.maxD.y < coordinates.maxV.y) {
+              coordinates.maxD.y < coordinates.maxV.y) {
           coordinates = this.findNextDiagonalPoint(coordinates.maxD.x, coordinates.maxD.y, 
-					  coordinates.maxH.x, coordinates.maxV.y);
+            coordinates.maxH.x, coordinates.maxV.y);
       }
       
       return coordinates;
@@ -155,40 +155,40 @@
     GridMancer.prototype.addRect = function(x, y, width, height) {
       var limitX = x + width,
           limitY = y + height,
-					tempY;
+          tempY;
        
       for (; x < limitX; x++) {
         for (tempY = y; tempY < limitY; tempY++) {
           this.grid[tempY][x] = this.nextRectId;
         }
       }
-			
-			this.nextRectId++;
+      
+      this.nextRectId++;
     };
     GridMancer.prototype._drawGrid = function(grid, containerId) {
       var x, y, newDiv, newSpan,
-			    document = window.document,
-			    containerElement = document.getElementById(containerId);
-				
-			for (y = 0; y < this.height; y++) {
-			  newDiv = document.createElement("div");
-				newDiv.className = "line";
-				
-				for (x = 0; x < this.width; x++) {
-				  label = document.createElement("span");
-					label.innerHTML = grid[y][x];
-					newDiv.appendChild(label);
-				}
-				
-				containerElement.appendChild(newDiv);
-			}
+          document = window.document,
+          containerElement = document.getElementById(containerId);
+        
+      for (y = 0; y < this.height; y++) {
+        newDiv = document.createElement("div");
+        newDiv.className = "line";
+        
+        for (x = 0; x < this.width; x++) {
+          label = document.createElement("span");
+          label.innerHTML = grid[y][x];
+          newDiv.appendChild(label);
+        }
+        
+        containerElement.appendChild(newDiv);
+      }
     };
     GridMancer.prototype.drawOriginalGrid = function(containerId) {
       this._drawGrid(this.originalGrid, containerId);
     };
-		GridMancer.prototype.drawGrid = function(containerId) {
-		  this._drawGrid(this.grid, containerId);
-		};
+    GridMancer.prototype.drawGrid = function(containerId) {
+      this._drawGrid(this.grid, containerId);
+    };
     GridMancer.prototype.findSolution = function() {
       var x, y, newY, coordinates;
       for (y = 0; y < this.grid.length; y += this.tileSize) {
@@ -220,7 +220,7 @@
         }
       }
     };
-		
-		window.GridMancer = GridMancer;
+    
+    window.GridMancer = GridMancer;
   }
 })(window);
